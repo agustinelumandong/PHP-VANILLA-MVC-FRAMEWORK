@@ -1,0 +1,15 @@
+name: Auto-update Packagist
+
+on:
+  push:
+    branches:
+      - main # Change this if you use a different default branch (e.g., "master")
+
+jobs:
+  update-packagist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Packagist
+        run: |
+          curl -X POST -H "Authorization: Bearer ${{ secrets.PACKAGIST_API_TOKEN }}" \
+          https://packagist.org/api/update-package/?username=agust&repository=agust/mvc-structure
