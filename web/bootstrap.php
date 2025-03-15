@@ -53,3 +53,4 @@ try {
     require_once __DIR__ . '/../app/Views/errors/404.php';
   }
 }
+

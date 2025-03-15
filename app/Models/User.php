@@ -33,4 +33,6 @@ class User extends Model
 
     return password_verify($password, $user['password']) ? $user : false;
   }
+
+  
 }

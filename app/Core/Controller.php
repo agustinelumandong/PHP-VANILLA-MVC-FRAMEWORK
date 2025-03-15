@@ -3,6 +3,7 @@
 // app/Core/Controller.php
 
 namespace App\Core;
+use Exception;
 
 class Controller
 {
@@ -16,7 +17,7 @@ class Controller
         $viewPath = "../app/Views/{$name}.php";
 
         if (!file_exists($viewPath)) {
-            throw new \Exception("View {$name} not found");
+            throw new Exception("View {$name} not found");
         }
 
         ob_start();
