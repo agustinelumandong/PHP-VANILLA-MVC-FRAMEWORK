@@ -88,7 +88,7 @@ project/
 ```
 
 ## Basic Usage
-# Defining Routes
+## Defining Routes
 Routes are defined in routes/web.php:
 ```php
 // Define a simple GET route
@@ -207,7 +207,7 @@ Views go in the app/Views directory:
 ## Configuration
 Configuration files are stored in the config/ directory, with different files for different aspects of the application.
 
-# Application Configuration
+## Application Configuration
 
 ```php
 // config/app.php
@@ -222,7 +222,7 @@ return [
 ];
 ```
 
-# Database Configuration
+## Database Configuration
 
 ```php
 
@@ -282,5 +282,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 This framework is open-sourced software licensed under the MIT license.
 
 ## Author
-# Sean Agustine L. Esparagoza 
-# Github: agustinelumandong
+Sean Agustine L. Esparagoza  
+Github: agustinelumandong
