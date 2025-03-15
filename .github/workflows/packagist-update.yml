@@ -3,7 +3,7 @@ name: Auto-update Packagist
 on:
   push:
     branches:
-      - main # Change this if you use a different default branch (e.g., "master")
+      - master # Change this if you use a different default branch (e.g., "master")
 
 jobs:
   update-packagist:
