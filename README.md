@@ -23,7 +23,8 @@ Key features:
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/agustinelumandong/PHP-VANILLA-MVC-FRAMEWORK.git
+composer create-project agust/mvc-structure NameOfProject
+
 cd PHP-VANILLA-MVC-FRAMEWORK
 ```
 
