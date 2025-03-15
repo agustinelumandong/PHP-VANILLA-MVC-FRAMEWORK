@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'agust/mvc-structure',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '72d4c385ba5aa464a547df09575ea39a9ad326f1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'agust/mvc-structure' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '72d4c385ba5aa464a547df09575ea39a9ad326f1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
