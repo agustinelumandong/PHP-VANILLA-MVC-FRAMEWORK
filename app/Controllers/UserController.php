@@ -1,6 +1,7 @@
 <?php
 
 // app/Controllers/UserController.php
+// main php file
 
 namespace App\Controllers;
 
@@ -23,10 +24,12 @@ class UserController extends Controller
   public function index()
   {
     $users = $this->userModel->all();
+    $userEmail = $this->userModel->getUserEmail();
 
     return $this->view('users/index', [
       'title' => 'Users',
-      'users' => $users
+      'users' => $users,
+      'userEmail' => $userEmail
     ]);
   }
 
@@ -140,4 +143,5 @@ class UserController extends Controller
 
     $this->redirect('/users');
   }
+
 }

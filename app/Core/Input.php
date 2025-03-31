@@ -60,10 +60,11 @@ class Input
   public static function sanitize($input)
   {
     if (is_array($input)) {
-    return array_map([self::class, 'sanitize'], $input);
+      return array_map([self::class, 'sanitize'], $input);
     }
 
     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
   }
 }
 ?>
+

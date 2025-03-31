@@ -1,7 +1,7 @@
 <?php
 
 // app/Core/Database.php
-
+//main
 namespace App\Core;
 
 use PDO;
@@ -81,12 +81,29 @@ class Database
   }
 
   /**
+   * Fetch single column
+   */
+  public function fetchColumn()
+  {
+    return $this->statement->fetchColumn();
+  }
+
+  /**
    * Get row count
    */
   public function rowCount()
   {
     return $this->statement->rowCount();
   }
+
+  /**
+   * Get Column Count
+   */
+  public function columnCount()
+  {
+    return $this->statement->columnCount();
+  }
+
 
   /**
    * Get last insert ID

@@ -19,36 +19,48 @@ class Router
   /**
    * Register a GET route
    */
-  public function get(string $uri, array $controller)
+  public function get(string $uri, array $controller, array $middleware = [])
   {
-    $this->routes['GET'][$uri] = $controller;
+    $this->routes['GET'][$uri] = [
+      'controller' => $controller,
+      'middleware' => $middleware
+    ];
     return $this;
   }
 
   /**
    * Register a POST route
    */
-  public function post(string $uri, array $controller)
+  public function post(string $uri, array $controller, array $middleware = [])
   {
-    $this->routes['POST'][$uri] = $controller;
+    $this->routes['POST'][$uri] = [
+      'controller' => $controller,
+      'middleware' => $middleware
+    ];
     return $this;
   }
 
   /**
    * Register a PUT route
    */
-  public function put(string $uri, array $controller)
+  public function put(string $uri, array $controller, array $middleware = [])
   {
-    $this->routes['PUT'][$uri] = $controller;
+    $this->routes['PUT'][$uri] = [
+      'controller' => $controller,
+      'middleware' => $middleware
+    ];
     return $this;
   }
 
   /**
    * Register a DELETE route
    */
-  public function delete(string $uri, array $controller)
+  public function delete(string $uri, array $controller, array $middleware = [])
   {
-    $this->routes['DELETE'][$uri] = $controller;
+    $this->routes['DELETE'][$uri] = [
+      'controller' => $controller,
+      'middleware' => $middleware
+    ];
     return $this;
   }
 
@@ -66,26 +78,47 @@ class Router
 
     // First check for exact route match
     if (array_key_exists($uri, $this->routes[$method])) {
-      // Handle middleware
-      if (isset($this->routes[$method][$uri]['middleware'])) {
-        $middleware = $this->routes[$method][$uri]['middleware'];
+      $route = $this->routes[$method][$uri];
+
+      // Apply middleware if any exists
+      if (!empty($route['middleware'])) {
         $request = $_REQUEST;
-
-        $request = Middleware::run($middleware, $request);
+        foreach ($route['middleware'] as $middleware) {
+          $request = \App\Core\Middleware::run($middleware, $request);
+        }
       }
-
       return $this->callAction(
-        $this->routes[$method][$uri][0],
-        $this->routes[$method][$uri][1]
+        $route['controller'][0],
+        $route['controller'][1]
       );
+
+      // Handle middleware
+      // if (isset($this->routes[$method][$uri]['middleware'])) {
+      //   $middleware = $this->routes[$method][$uri]['middleware'];
+      //   $request = $_REQUEST;
+
+      //   $request = Middleware::run($middleware, $request);
+      // }
+
+      // return $this->callAction(
+      //   $this->routes[$method][$uri][0],
+      //   $this->routes[$method][$uri][1]
+      // );
     }
 
     // Check for routes with parameters
-    foreach ($this->routes[$method] as $route => $controller) {
+    foreach ($this->routes[$method] as $route => $config) {
       if ($this->matchRoute($route, $uri)) {
+        // Apply middleware if any exists
+        if (!empty($config['middleware'])) {
+          $request = $_REQUEST;
+          foreach ($config['middleware'] as $middleware) {
+            $request = \App\Core\Middleware::run($middleware, $request);
+          }
+        }
         return $this->callAction(
-          $controller[0],
-          $controller[1]
+          $config['controller'][0],
+          $config['controller'][1]
         );
       }
     }
@@ -174,4 +207,6 @@ class Router
 
     return $this;
   }
+
+
 }

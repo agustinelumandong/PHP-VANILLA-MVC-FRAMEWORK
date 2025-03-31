@@ -14,7 +14,7 @@ class AuthMiddleware extends Middleware
    */
   public function handle($request, Closure $next)
   {
-    if (!isset($_SESSION['user_id'])) {
+    if (!isset($_SESSION['user'])) {
       // Store the intended URL in the session
       $_SESSION['intended_url'] = $_SERVER['REQUEST_URI'];
 
