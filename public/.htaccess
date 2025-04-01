@@ -1,14 +1,3 @@
-LoadModule rewrite_module modules/mod_rewrite.so
-
-<VirtualHost *:80>
-    ServerName mvc.test
-    DocumentRoot "d:/proprojects/mvc/public"
-    <Directory "d:/proprojects/mvc/public">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
