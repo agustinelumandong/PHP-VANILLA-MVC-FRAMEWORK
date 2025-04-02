@@ -1,5 +1,5 @@
 <?php
-// app/Core/Middleware.php
+// app/Core/Auth.php
 
 namespace App\Core;
 
@@ -17,26 +17,30 @@ abstract class Auth
 
   public static function user()
   {
-    if (!self::$user && self::check()) {
-      // Assuming you have a User model to fetch user details
-      self::$user = User::find($_SESSION['user']);
+    // Check if user data is already loaded or if the session exists
+    if (self::$user === null && self::check()) {
+      $sessionUser = $_SESSION['user'];
+      // Ensure session data is an array and has an 'id' key
+      if (is_array($sessionUser) && isset($sessionUser['id'])) {
+        // Fetch user details using the ID from the session array
+        self::$user = User::find($sessionUser['id']);
+      } elseif (is_object($sessionUser) && isset($sessionUser->id)) {
+        // Fetch user details using the ID from the session object
+        self::$user = User::find($sessionUser->id);
+      }
+      // If session data is invalid or find fails, self::$user remains null
     }
     return self::$user;
   }
 
   public static function login($user)
   {
-    // Assuming $user is an instance of the User model or an associative array with user data
-    if (is_array($user)) {
-      $_SESSION['user'] = $user['id'];
-
-    } else {
-      // If $user is an object, you can access its properties directly
-      $_SESSION['user'] = $user->id;
-    }
     if (!$user) {
-      throw new \Exception('User not found');
+      throw new \Exception('User not found or invalid');
     }
+
+    // Store the entire user array or object in the session
+    $_SESSION['user'] = $user;
 
     // Regenerate session ID to prevent session fixation attacks
     session_regenerate_id(true);

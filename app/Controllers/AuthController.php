@@ -43,7 +43,7 @@ class AuthController extends Controller
     ]);
 
     // Check if the user exists
-    $user = $this->userModel->authenticate($data['email'], $data['password']);
+    $user = User::authenticate($data['email'], $data['password']);
 
     if (!$user) {
       $_SESSION['error'] = 'Invalid email or password!';

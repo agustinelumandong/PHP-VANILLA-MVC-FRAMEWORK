@@ -1,12 +1,11 @@
 <?php
 // web/bootstrap.php
-namespace App;
 
 use App\Core\Database;
 use App\Core\Helpers;
 use App\Core\Router;
 use App\Core\Model;
-use Exception;
+// use Exception;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -53,4 +52,3 @@ try {
     require_once __DIR__ . '/../app/Views/errors/404.php';
   }
 }
-

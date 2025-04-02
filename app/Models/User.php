@@ -42,29 +42,29 @@ class User extends Model
   /**
    * Retrieve user email using inner join
    */
-  public function getUserEmail()
-  {
-    $sql = "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
-      FROM " . static::$table . "
-      INNER JOIN profiles
-      ON " . static::$table . ".id = profiles.user_id";
+  // public function getUserEmail()
+  // {
+  //   $sql = "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
+  //     FROM " . static::$table . "
+  //     INNER JOIN profiles
+  //     ON " . static::$table . ".id = profiles.user_id";
 
-    return self::$db->query($sql)->execute()->fetchAll();
-  }
+  //   return self::$db->query($sql)->execute()->fetchAll();
+  // }
 
   /**
    * Retrieve user email using left join
    */
-  public function getUserEmailLeftJoin()
-  {
-    return self::$db->query(
-      "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
-      FROM " . static::$table . "
-      LEFT JOIN profiles
-      ON " . static::$table . ".id = profiles.user_id"
-    )
-      ->execute()
-      ->fetchAll();
-  }
+  // public function getUserEmailLeftJoin()
+  // {
+  //   return self::$db->query(
+  //     "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
+  //     FROM " . static::$table . "
+  //     LEFT JOIN profiles
+  //     ON " . static::$table . ".id = profiles.user_id"
+  //   )
+  //     ->execute()
+  //     ->fetchAll();
+  // }
 
 }

@@ -24,12 +24,12 @@ class UserController extends Controller
   public function index()
   {
     $users = $this->userModel->all();
-    $userEmail = $this->userModel->getUserEmail();
+    $email = $this->userModel->find($users[0]['id'])['email'] ?? null;
 
     return $this->view('users/index', [
       'title' => 'Users',
       'users' => $users,
-      'userEmail' => $userEmail
+      'email' => $email
     ]);
   }
 

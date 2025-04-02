@@ -1,17 +1,9 @@
 <?php
 
-namespace Web;
-
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\AuthController;
 use App\Middleware\AuthMiddleware;
-
-use Exception;
-
-try {
-
-
 
   // Define routes
   $router->get('/', [HomeController::class, 'index']);
@@ -36,8 +28,3 @@ try {
   $router->delete('/users/{id}', [UserController::class, 'destroy'], [AuthMiddleware::class]);
 
 
-} catch (Exception $e) {
-  echo '<h1>Error</h1>';
-  echo '<p>' . $e->getMessage() . '</p>';
-  echo '<pre>' . $e->getTraceAsString() . '</pre>';
-}
