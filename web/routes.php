@@ -3,6 +3,7 @@
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\AuthController;
+use App\Middleware\AdminMiddleware;
 use App\Middleware\AuthMiddleware;
 
   // Define routes

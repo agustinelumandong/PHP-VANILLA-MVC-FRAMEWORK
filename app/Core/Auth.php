@@ -1,10 +1,9 @@
 <?php
-// app/Core/Auth.php
-
 namespace App\Core;
 
 use App\Models\User;
 use App\Core\Model;
+use Exception;
 
 abstract class Auth
 {
@@ -12,43 +11,58 @@ abstract class Auth
 
   public static function check()
   {
-    return isset($_SESSION['user']);
+    return isset($_SESSION['users']);
   }
 
   public static function user()
   {
-    // Check if user data is already loaded or if the session exists
     if (self::$user === null && self::check()) {
-      $sessionUser = $_SESSION['user'];
-      // Ensure session data is an array and has an 'id' key
+      $sessionUser = $_SESSION['users'];
       if (is_array($sessionUser) && isset($sessionUser['id'])) {
-        // Fetch user details using the ID from the session array
         self::$user = User::find($sessionUser['id']);
       } elseif (is_object($sessionUser) && isset($sessionUser->id)) {
-        // Fetch user details using the ID from the session object
         self::$user = User::find($sessionUser->id);
       }
-      // If session data is invalid or find fails, self::$user remains null
     }
     return self::$user;
+  }
+
+  public static function getByUserId($user = null)
+  {
+    $user = $user ?? static::user();
+    if (!$user)
+      return null;
+
+    return is_array($user)
+      ? ($user['id'] ?? null)
+      : ($user->id ?? null);
+  }
+
+  public static function isAdmin()
+  {
+    $user = self::user();
+    if ($user) {
+      return is_array($user)
+        ? (isset($user['role']) && $user['role'] === 'admin')
+        : (isset($user->role) && $user->role === 'admin');
+    }
+    return false;
   }
 
   public static function login($user)
   {
     if (!$user) {
-      throw new \Exception('User not found or invalid');
+      throw new Exception('User not found or invalid');
     }
 
-    // Store the entire user array or object in the session
-    $_SESSION['user'] = $user;
+    $_SESSION['users'] = $user;
 
-    // Regenerate session ID to prevent session fixation attacks
     session_regenerate_id(true);
   }
 
   public static function logout()
   {
-    session_destroy(); // Destroy the session
-    session_regenerate_id(true); // Regenerate session ID to prevent session fixation attacks
+    session_destroy();
+    session_regenerate_id(true);
   }
 }

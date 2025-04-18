@@ -8,6 +8,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Input;
 use App\Models\User;
+use Exception;
 
 class UserController extends Controller
 {
@@ -117,15 +118,23 @@ class UserController extends Controller
       $data['password'] = password_hash(Input::post('password'), PASSWORD_DEFAULT);
     }
 
-    $updated = $this->userModel->update($id, $data);
+    try {
 
-    if ($updated) {
-      $_SESSION['success'] = 'User updated successfully!';
-      $this->redirect('/users');
-    } else {
-      $_SESSION['error'] = 'Failed to update user.';
+      $updated = $this->userModel->update($id, $data);
+
+      if ($updated) {
+        $_SESSION['success'] = 'User updated successfully!';
+        $this->redirect('/users');
+      } else {
+        $_SESSION['error'] = 'Failed to update user.';
+        $this->redirect("/users/{$id}/edit");
+      }
+
+    } catch (Exception $e) {
+      $_SESSION['error'] = 'Failed to update user: ' . $e->getMessage();
       $this->redirect("/users/{$id}/edit");
     }
+
   }
 
   /**

@@ -203,4 +203,111 @@ abstract class Model
     return strlen($password) >= 8;
   }
 
+  /**
+   * Get paginated items with proper database-level pagination
+   */
+  public function paginate(
+    int $page = 1,
+    int $perPage = 10,
+    ?string $orderBy = null,
+    string $direction = 'DESC',
+    array $conditions = []
+  ) {
+    $offset = ($page - 1) * $perPage;
+
+    $items = $this->fetch($conditions, $orderBy, $direction, $perPage, $offset);
+
+    $countSql = "SELECT COUNT(*) as count FROM " . static::$table;
+    $params = [];
+
+    if (!empty($conditions)) {
+      $countSql .= " WHERE ";
+      $whereClauses = [];
+
+      foreach ($conditions as $colum => $value) {
+        $paramName = "{$colum}";
+        $whereClauses[] = "{$colum} = {$paramName}";
+        $params[$paramName] = $value;
+      }
+      $countSql .= implode(" AND ", $whereClauses);
+    }
+
+    $countQuery = self::$db->query($countSql);
+
+    if (!empty($params)) {
+      $countQuery->bind($params);
+    }
+
+    $totalItems = $countQuery->execute()->fetch()['count'];
+    $totalPages = ceil($totalItems / $perPage);
+
+    return [
+      'items' => $items,
+      'currentPage' => $page,
+      'perPage' => $perPage,
+      'totalItems' => $totalItems,
+      'totalPages' => $totalPages
+    ];
+  }
+
+  /**
+   * Fetch records with conditions, sorting, and pagination
+   */
+  public function fetch(
+    array $conditions = [],
+    ?string $orderBy = null,
+    string $direction = 'ASC',
+    ?int $limit = null,
+    ?int $offset = null
+  ) {
+    $sql = "SELECT * FROM " . static::$table;
+    $params = [];
+
+    if (!empty($conditions)) {
+      $sql .= " WHERE ";
+      $whereClauses = [];
+
+      foreach ($conditions as $colum => $value) {
+        $paramName = "{$colum}";
+        $whereClauses[] = "{$colum} = {$paramName}";
+        $params[$paramName] = $value;
+      }
+      $sql .= implode(" AND ", $whereClauses);
+    }
+
+    if ($orderBy !== 'null') {
+      $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
+      $sql .= " ORDER BY {$orderBy} {$direction}";
+    }
+
+    if ($limit !== null) {
+      $sql .= " LIMIT :limit";
+      $params[':limit'] = $limit;
+
+      if ($offset !== null) {
+        $sql .= " OFFSET :offset";
+        $params[':offset'] = $offset;
+      }
+
+      $query = self::$db->query($sql);
+
+      if (!empty($params)) {
+        $query->bind($params);
+      }
+    }
+    return $query->execute()->fetchAll();
+  }
+
+  // EXMPLE USAGE
+  // Get all products sorted by price in ascending order
+  // $products = $productModel->fetch([], 'item_price', 'ASC');
+
+  // Get products sorted by name in descending order
+  // $products = $productModel->fetch([], 'item_name', 'DESC');
+
+  // Get products with conditions and sorting
+  // $products = $productModel->fetch(['category_id' => 5], 'item_price', 'DESC', 10);
+
+  // Get the 10 most recent products
+  // $products = $productModel->fetch([], 'created_at', 'DESC', 10);
 }

@@ -10,16 +10,15 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
-        </li>
         <?php if (App\Core\Auth::check()): ?>
           <li class="nav-item">
             <a class="nav-link" href="/contact">Contact</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users">Users</a>
-          </li>
+          <?php if (App\Core\Auth::isAdmin()): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/users">Users</a>
+            </li>
+          <?php endif; ?>
           <li class="nav-item">
             <a class="nav-link" href="/logout">logout</a>
           </li>

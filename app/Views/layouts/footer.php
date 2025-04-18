@@ -2,8 +2,8 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="d-flex flex-row align-items-center justify-content-center col-md-6 mb-3 mb-md-0">
-        <p class="p-2 mb-0 fs-6 fw-light">&copy; <?= date('Y') ?>
-          <?= \App\Core\Helpers::env('APP_NAME', 'MVC Framework') ?>. All rights reserved.
+        <p class="p-2 mb-0 fs-6 fw-light">&copy; < ?= date('Y') ?>
+          < ?= \App\Core\Helpers::env('APP_NAME', 'MVC Framework') ?>. All rights reserved.
         </p>
         <p class="p-2">Created: <a class="text-white fs-8" href="https://github.com/agustinelumandong">Sean Agustine
             Esparagoza</a>

@@ -96,9 +96,112 @@ footer a:hover {
   .display-4 {
     font-size: 2.5rem;
   }
-  
+
   .container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
+}
+
+/* Toast styling for session messages */
+.toast {
+  opacity: 1 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.toast.success .toast-header {
+  border-bottom: 2px solid #198754;
+}
+
+.toast.danger .toast-header {
+  border-bottom: 2px solid #dc3545;
+}
+
+.toast.show {
+  transform: translateY(-10px);
+}
+
+/* Error page styling */
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 2rem;
+}
+
+.error-button {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.error-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Basic form styling */
+.form-control:focus,
+.form-select:focus {
+  border-color: #212529;
+  box-shadow: 0 0 0 0.25rem rgba(33, 37, 41, 0.25);
+}
+
+/* Table styling */
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+/* Minimalist pagination styling */
+.pagination {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.pagination .page-link {
+  color: #000;
+  background-color: transparent;
+  border-color: #dee2e6;
+  box-shadow: none !important;
+  font-size: 0.875rem;
+}
+
+.pagination .page-link:hover {
+  background-color: #f8f9fa;
+  border-color: #000;
+  z-index: 2;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  border-color: #dee2e6;
+  opacity: 0.65;
 }

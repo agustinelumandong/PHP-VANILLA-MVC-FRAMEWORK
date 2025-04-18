@@ -14,8 +14,9 @@ class GuestMiddleware extends Middleware
    */
   public function handle($request, Closure $next)
   {
-    if (isset($_SESSION['user_id'])) {
-      // Redirect to home page
+    // Check if user is logged in (using the same key as AuthMiddleware)
+    if (isset($_SESSION['users'])) {
+      // Redirect to home page if logged in
       header('Location: /');
       exit;
     }

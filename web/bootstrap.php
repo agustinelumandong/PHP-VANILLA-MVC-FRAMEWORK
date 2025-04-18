@@ -23,6 +23,34 @@ error_reporting($config['debug'] ? E_ALL : 0);
 // Start session
 session_start();
 
+// Session timeout configuration
+$session_timeout = 1800; // 30 minutes in seconds
+
+// Check for session timeout
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $session_timeout)) {
+  // Session expired
+  session_unset();     // Remove all session variables
+  session_destroy();   // Destroy the session
+
+  // Redirect to login page if needed
+  if (!empty($_SERVER['REQUEST_URI']) && !preg_match('/\/(login|register|public)/', $_SERVER['REQUEST_URI'])) {
+    header('Location: /login');
+    exit;
+  }
+}
+
+// Update last activity timestamp
+$_SESSION['last_activity'] = time();
+
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+  if (!empty($_SERVER['REQUEST_URI']) && preg_match('/^\/(login|register)(\?.*)?$/', $_SERVER['REQUEST_URI'])) {
+    // Redirect to home page or dashboard
+    header('Location: /dashboard');
+    exit;
+  }
+}
+
+
 // Create database connection
 $db = new Database($database);
 

@@ -26,6 +26,10 @@ class AuthController extends Controller
    */
   public function index()
   {
+    if (Auth::check()) {
+      $this->redirect('/');
+    }
+
     return $this->view('auth/login', [
       'title' => 'Login'
     ]);

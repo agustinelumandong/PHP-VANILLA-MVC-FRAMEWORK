@@ -14,6 +14,14 @@ class User extends Model
     // Empty constructor - no need to set table here
   }
 
+  public function getAllUserIds(): array
+  {
+    $results = self::$db->query("SELECT id FROM " . static::$table)
+      ->execute()
+      ->fetchAll();
+    return $results ? $results : [];
+  }
+
   /**
    * Find a user by email
    */
@@ -39,32 +47,15 @@ class User extends Model
     return password_verify($password, $user['password']) ? $user : false;
   }
 
-  /**
-   * Retrieve user email using inner join
-   */
-  // public function getUserEmail()
-  // {
-  //   $sql = "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
-  //     FROM " . static::$table . "
-  //     INNER JOIN profiles
-  //     ON " . static::$table . ".id = profiles.user_id";
+  public function getUserStats($userId)
+  {
+    return self::$db->query("SELECT * FROM userstats WHERE id = ?")
+      ->bind([1 => $userId])
+      ->execute()
+      ->fetch();
+  }
 
-  //   return self::$db->query($sql)->execute()->fetchAll();
-  // }
 
-  /**
-   * Retrieve user email using left join
-   */
-  // public function getUserEmailLeftJoin()
-  // {
-  //   return self::$db->query(
-  //     "SELECT " . static::$table . ".email, profiles.first_name, profiles.last_name
-  //     FROM " . static::$table . "
-  //     LEFT JOIN profiles
-  //     ON " . static::$table . ".id = profiles.user_id"
-  //   )
-  //     ->execute()
-  //     ->fetchAll();
-  // }
+
 
 }
